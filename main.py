@@ -6,9 +6,9 @@ def main():
     print("Ночью произошло ограбление в ювелирном магазине.")
     print("Подозреваемые: Петров(petrov), Иванов(ivanov), Кузнецова(kuznetsova), Чернов(chernov).")
     print("Чтобы обвинить преступника, используйте команду accuse <name>.")
-    print("Всего можно собрать 4 улики. Удачи, детектив!")
+    print(f"Всего можно собрать {gd.TOTAL_CLUES} улики. Удачи, детектив!")
         
-    print(f"Собрано улик: {gd.clues}")
+    print(f"Собрано улик: {len(gd.clues)}")
     print(f"Вы не находитесь ни на какой локации {gd.place}")
     print("Чтобы открыть список команд, введите 'help'")
     
@@ -38,24 +38,21 @@ def main():
 
             # Разговор с подозреваемыми
         elif command.startswith("talk "):
-                # Отрезаем слово "talk " и берем имя
-            gd.suspect = command[5:].strip()    
+            # Отрезаем слово "talk " и берем имя
+            name = command[5:].strip()    
             # Вызываем функцию talk_to и передаем туда имя и улики
-            gd.talk_to(gd.suspect, gd.clues)
-            
+            gd.talk_to(name, gd.clues)
+
             # Обвинение подозреваемого
         elif command.startswith("accuse "):
                 # Отрезаем слово "accuse " (7 символов) и берем имя
-            gd.suspect = command[7:].strip()
-                    
+            name = command[7:].strip()     
                 # Вызываем функцию и ловим результат (True = игра окончена)
-            is_game_over = gd.accuse(gd.suspect, gd.CRIMINAL, gd.clues, gd.total_clues)
-                    
+            is_game_over = gd.accuse(name, gd.CRIMINAL, gd.clues, gd.TOTAL_CLUES) 
             if is_game_over:
                     break  # Выходим из цикла, игра завершена
-
-            else: 
-                print("Неизвестная команда. Введите 'help'.")
+        else: 
+            print("Неизвестная команда. Введите 'help'.")
 
 # Точка входа
 if __name__ == "__main__":
